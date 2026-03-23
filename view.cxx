@@ -1,5 +1,6 @@
 #include <iostream>
-#include <types.hpp>
+#include "types.hpp"
+#include "board.hpp"
 using namespace std;
 
 char piece_2_FEN(PIECE p){
@@ -36,9 +37,4 @@ void print_board_FEN(PIECE tab[SIZE][SIZE]) {
 
     cout << "  a b c d e f g h" << endl;
     cout << "  -----------------------" << endl;
-}
-
-int main(){
-
-    return 0;
 }

@@ -1,6 +1,6 @@
 #include <iostream>
-#include <types.hpp>
-#include <view.hpp>
+#include "types.hpp"
+#include "view.hpp"
 using namespace std;
 
 void init_board(PIECE tab[SIZE][SIZE]) {
@@ -111,7 +111,3 @@ void write_FEN(PIECE tab[SIZE][SIZE]){
     cout << endl;
 }
 
-
-int main(){
-    return 0;
-}

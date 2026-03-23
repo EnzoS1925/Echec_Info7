@@ -1,3 +1,6 @@
+#ifndef TYPES_HPP
+#define TYPES_HPP
+
 const int SIZE = 8;
 
 enum PIECE {
@@ -7,3 +10,5 @@ enum PIECE {
 };
 
 using Plateau = PIECE [SIZE][SIZE];
+
+#endif

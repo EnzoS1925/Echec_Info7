@@ -1,12 +1,16 @@
-all: projet
+all: main
 
+main: main.o board.o view.o
+	g++ main.o board.o view.o -o main
 
-projet: projet.o
-	g++ projet.o -o projet
+main.o: main.cxx board.hpp view.hpp types.hpp
+	g++ -c main.cxx
 
-projet.o: projet.cxx
-	g++ -c projet.cxx
+board.o: board.cxx board.hpp types.hpp
+	g++ -c board.cxx
 
+view.o: view.cxx view.hpp types.hpp
+	g++ -c view.cxx
 
 clean:
-	rm -f projet.o projet
+	rm -f *.o main
