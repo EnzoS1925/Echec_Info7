@@ -81,7 +81,6 @@ void move_piece(PIECE tab[SIZE][SIZE], int x, int y) {
     cout << "De combien de cases voulez-vous avancer (1 ou 2) ? ";
     cin >> dep;
     if (dep < 1 || dep > 2) {
-        cout << "Distance invalide." << endl;
         return;
     }
     int new_x = x + (dep * direction);
@@ -95,6 +94,68 @@ void move_piece(PIECE tab[SIZE][SIZE], int x, int y) {
 
 // A mettre dans le fichier view.cxx après : 
 
+char piece_2_FEN(PIECE p){
+    switch (p){
+        case ROI_N:      return 'k'; 
+        case ROI_B:      return 'K';
+        case REINE_N:    return 'q'; 
+        case REINE_B:    return 'Q';
+        case TOUR_N:     return 'r'; 
+        case TOUR_B:     return 'R';
+        case FOU_N:      return 'b'; 
+        case FOU_B:      return 'B';
+        case CAVALIER_N: return 'n'; 
+        case CAVALIER_B: return 'N';
+        case PION_N:     return 'p'; 
+        case PION_B:     return 'P';
+        default:         return '_';
+    }
+}
+
+void print_board_FEN(PIECE tab[SIZE][SIZE]) {
+    cout << "Board classique:" << endl;
+    cout << "  -----------------------" << endl;
+    cout << "  a b c d e f g h" << endl;
+
+    for (int i = 0; i < SIZE; i++) {
+        cout << 8 - i << " "; 
+        
+        for (int j = 0; j < SIZE; j++) {
+            cout << piece_2_FEN(tab[i][j]) << " ";
+        }
+        cout << 8 - i << endl;
+    }
+
+    cout << "  a b c d e f g h" << endl;
+    cout << "  -----------------------" << endl;
+}
+
+void write_FEN(PIECE tab[SIZE][SIZE]){
+    for (int i = 0; i < SIZE; i++) {
+        int vides = 0;
+        for (int j = 0; j < SIZE; j++) {
+            PIECE p = tab[i][j];
+            
+            if (p == VIDE) {
+                vides++;
+            } else {
+                if (vides > 0) {
+                    cout << vides;
+                    vides = 0;
+                }
+                cout << piece_2_FEN(p);
+            }
+        }
+        if (vides > 0){
+           cout << vides; 
+        } 
+        
+        if (i < SIZE - 1){
+            cout << "/";
+        } 
+    }
+    cout << endl;
+}
 
 int main() {
     PIECE board[SIZE][SIZE];    
@@ -103,5 +164,6 @@ int main() {
     print_board(board);
     move_piece(board,1,1);
     print_board(board);
+    print_board_FEN(board);
     return 0;
 }
