@@ -24,17 +24,47 @@ char piece_2_FEN(PIECE p){
 void print_board_FEN(PIECE tab[SIZE][SIZE]) {
     cout << "Board classique:" << endl;
     cout << "  -----------------------" << endl;
-    cout << "  a b c d e f g h" << endl;
+    cout << "  a  b  c  d  e  f  g  h " << endl;
 
     for (int i = 0; i < SIZE; i++) {
-        cout << 8 - i << " "; 
+        cout << i << " "; 
         
         for (int j = 0; j < SIZE; j++) {
-            cout << piece_2_FEN(tab[i][j]) << " ";
+            if ((i+j)%2==0){
+                cout << "\x1b[48;5;94m";
+            }else{
+                cout << "\x1b[48;5;223m";
+            }
+            // Ci-dessus Unicde en code ASCII pour mettre la couleur sur le plateau
+            PIECE p = tab[i][j];
+            if (p >= ROI_N && p <= PION_N){
+                cout << "\x1b[38;5;0m";
+            } else{
+                cout << "\x1b[38;5;255m";
+            }
+
+            //Ajout des piece comme dans le jeux d'echec et non pas sous forme FEN.
+
+            switch(p){
+                case ROI_N:      cout << " ♚ "; break;
+                case REINE_N:     cout << " ♛ "; break;
+                case TOUR_N:     cout << " ♜ "; break;
+                case FOU_N:      cout << " ♝ "; break;
+                case CAVALIER_N: cout << " ♞ "; break;
+                case PION_N:     cout << " ♟ "; break;
+                case ROI_B:      cout << " ♔ "; break;
+                case REINE_B:     cout << " ♕ "; break;
+                case TOUR_B:     cout << " ♖ "; break;
+                case FOU_B:      cout << " ♗ "; break;
+                case CAVALIER_B: cout << " ♘ "; break;
+                case PION_B:     cout << " ♙ "; break;
+                case VIDE:       cout << "   "; break;
+            }
+            cout << "\x1b[0m";
         }
-        cout << 8 - i << endl;
+        cout << i << endl;
     }
 
-    cout << "  a b c d e f g h" << endl;
+    cout << "  a  b  c  d  e  f  g  h" << endl;
     cout << "  -----------------------" << endl;
 }
