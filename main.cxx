@@ -14,7 +14,7 @@ int main() {
     init_board(board);
     start(board);
     print_board_FEN(board);
-
+/*
     while (pts_blanc != 15 or pts_noir != 15){
         cout << "Quel pièce voulez-vous déplacer ? (ligne et colonne)";
         cin >> x >> y;
@@ -24,5 +24,8 @@ int main() {
         cout << "Le nombre de coup déja jouer est : " << coup_jouer << endl;
         cout << "Points Noir : "  << pts_noir << "\t Points Blanc : " << pts_blanc << endl;
     }
+        */
+    write_FEN(board);
+    read_FEN(board);
     return 0;
 }

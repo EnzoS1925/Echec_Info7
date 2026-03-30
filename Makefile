@@ -13,4 +13,4 @@ view.o: view.cxx view.hpp types.hpp
 	g++ -c view.cxx
 
 clean:
-	rm -f *.o main
+	rm -f Fen.txt *.o main

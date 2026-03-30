@@ -15,4 +15,5 @@ void move_piece(Plateau tab, int x, int y,int* point_noir, int* point_blanc);
 
 void write_FEN(Plateau tab);
 
+void read_FEN(Plateau tab);
 #endif

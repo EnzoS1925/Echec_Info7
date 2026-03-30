@@ -1,6 +1,7 @@
 #include <iostream>
 #include "types.hpp"
 #include "view.hpp"
+#include <fstream>
 using namespace std;
 
 void init_board(PIECE tab[SIZE][SIZE]) {
@@ -92,7 +93,9 @@ void move_piece(PIECE tab[SIZE][SIZE], int x, int y, int* point_noir, int* point
 
 // Write_FEN doit envoyer dans un fichier txt.
 void write_FEN(PIECE tab[SIZE][SIZE]){
-    for (int i = 0; i < SIZE; i++) {
+    ofstream sortie("Fen.txt");
+    if (sortie){
+            for (int i = 0; i < SIZE; i++) {
         int vides = 0;
         for (int j = 0; j < SIZE; j++) {
             PIECE p = tab[i][j];
@@ -101,22 +104,35 @@ void write_FEN(PIECE tab[SIZE][SIZE]){
                 vides++;
             } else {
                 if (vides > 0) {
-                    cout << vides;
+                    sortie << vides;
                     vides = 0;
                 }
-                cout << piece_2_FEN(p);
+                sortie << piece_2_FEN(p);
             }
         }
         if (vides > 0){
-           cout << vides; 
+           sortie << vides; 
         } 
         
         if (i < SIZE - 1){
-            cout << "/";
+            sortie << "/";
         } 
     }
-    cout << endl;
+    sortie << endl;
+    }
+    else{
+        cout << "ERREUR : Impossible d'ouvrir le fichier." << endl;
+    }
 }
 
 // READ_FEN lit dans le fichier txt.
 
+void read_FEN(PIECE tab[SIZE][SIZE]){
+    ifstream entree("Fen.txt");
+    if(entree){
+        cout << "Lecture is GOOD"<< endl;
+    }
+    else{
+        cout << "ERREUR : Impossible d'ouvrir le fichier en lecture" << endl;
+    }
+}
