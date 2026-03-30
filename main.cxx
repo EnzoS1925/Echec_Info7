@@ -16,21 +16,18 @@ int main() {
     init_board(board);
     start(board);
     empty_mask(m);
-    set_square(4,4,board,TOUR_B);
-    highlight_possible_moves(4,4,board,m);
-    print_board(m);
-    cout << "-----------------" << endl;
     print_board_FEN(board);
-/*
     while (pts_blanc != 15 or pts_noir != 15){
         cout << "Quel pièce voulez-vous déplacer ? (ligne et colonne)";
         cin >> x >> y;
-        move_piece(board,x,y,&pts_noir,&pts_blanc);
-        print_board_FEN(board);  
+        highlight_possible_moves_king(x,y,board,m);
+        print_board_with_mask(board,m);
+        move_piece(board,x,y,&pts_noir,&pts_blanc); 
+        print_board_FEN(board);
         coup_jouer++;
         cout << "Le nombre de coup déja jouer est : " << coup_jouer << endl;
         cout << "Points Noir : "  << pts_noir << "\t Points Blanc : " << pts_blanc << endl;
+
     }
-        */
     return 0;
 }

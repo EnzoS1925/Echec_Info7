@@ -72,15 +72,64 @@ void print_board_FEN(PIECE tab[SIZE][SIZE]) {
 void print_board(Masque m) {
     cout << "  a  b  c  d  e  f  g  h " << endl;
     for (int i = 0; i < SIZE; i++) {
-        cout << i << " "; 
+        cout << i << " ";
         for (int j = 0; j < SIZE; j++) {
-            if ((i + j) % 2 == 0) {
-                cout << "\x1b[48;5;94m";
+            int val = m[i][j];
+            if (val == MASK_SELECTED) {
+                cout << "\x1b[48;5;226m";
+            } else if (val == MASK_MOVE) {
+                cout << "\x1b[48;5;34m";
+            } else if (val == MASK_CAPTURE) {
+                cout << "\x1b[48;5;160m";
             } else {
-                cout << "\x1b[48;5;223m";
+                if ((i+j) % 2 == 0) cout << "\x1b[48;5;94m";
+                else                 cout << "\x1b[48;5;223m";
             }
-            cout << "\x1b[38;5;0m"; 
-            cout << " " << m[i][j] << " ";
+            cout << "\x1b[38;5;0m";
+            cout << " " << val << " ";
+            cout << "\x1b[0m";
+        }
+        cout << " " << i << endl;
+    }
+    cout << "  a  b  c  d  e  f  g  h" << endl;
+}
+
+void print_board_with_mask(Plateau tab, Masque m) {
+    cout << "  a  b  c  d  e  f  g  h " << endl;
+    for (int i = 0; i < SIZE; i++) {
+        cout << i << " ";
+        for (int j = 0; j < SIZE; j++) {
+            int val = m[i][j];
+            PIECE p = tab[i][j];
+            if (val == MASK_SELECTED) {
+                cout << "\x1b[48;5;226m"; // jaune
+            } else if (val == MASK_MOVE) {
+                cout << "\x1b[48;5;34m";  // vert
+            } else if (val == MASK_CAPTURE) {
+                cout << "\x1b[48;5;160m"; // rouge
+            } else {
+                if ((i + j) % 2 == 0) cout << "\x1b[48;5;94m"; 
+                else                   cout << "\x1b[48;5;223m";
+            }
+            if (p >= ROI_N && p <= PION_N)
+                cout << "\x1b[38;5;0m"; 
+            else
+                cout << "\x1b[38;5;255m"; 
+            switch(p) {
+                case ROI_N:      cout << " ♚ "; break;
+                case REINE_N:    cout << " ♛ "; break;
+                case TOUR_N:     cout << " ♜ "; break;
+                case FOU_N:      cout << " ♝ "; break;
+                case CAVALIER_N: cout << " ♞ "; break;
+                case PION_N:     cout << " ♟ "; break;
+                case ROI_B:      cout << " ♔ "; break;
+                case REINE_B:    cout << " ♕ "; break;
+                case TOUR_B:     cout << " ♖ "; break;
+                case FOU_B:      cout << " ♗ "; break;
+                case CAVALIER_B: cout << " ♘ "; break;
+                case PION_B:     cout << " ♙ "; break;
+                case VIDE:       cout << "   "; break;
+            }
             cout << "\x1b[0m";
         }
         cout << " " << i << endl;

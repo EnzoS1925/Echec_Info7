@@ -12,4 +12,6 @@ void print_board(Plateau tab);
 
 void print_board(Masque m);
 
+void print_board_with_mask(Plateau tab, Masque m);
+
 #endif

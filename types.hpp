@@ -2,6 +2,10 @@
 #define TYPES_HPP
 
 const int SIZE = 8;
+const int MASK_VIDE      = 0;
+const int MASK_SELECTED  = 1;
+const int MASK_MOVE      = 2;
+const int MASK_CAPTURE   = 3;
 
 enum PIECE {
     VIDE,
