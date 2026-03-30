@@ -63,39 +63,34 @@ void start(PIECE tab[SIZE][SIZE]){
 
 void move_piece(PIECE tab[SIZE][SIZE], int x, int y, int* point_noir, int* point_blanc) {
     PIECE p = get_square(x, y, tab);
-    int direction = 0;
-    if (p >= ROI_N && p <= PION_N) {
-        direction = 1;
-    } else if (p >= ROI_B && p <= PION_B) {
-        direction = -1;
-    }
-    if (direction == 0) return;
-    int dep;
-    cout << "De combien de cases voulez-vous avancer (1 ou 2) ? ";
-    cin >> dep;
-    if (dep < 1 || dep > 2) return;
-    int new_x = x + (dep * direction);
+    int new_x,new_y;
+    cout << "Sur quel case voulez-vous aller ? (ligne & colonne) : ";
+    cin >> new_x >> new_y;
     if (new_x < 0 || new_x >= SIZE) return;
-    PIECE a_prendre = get_square(new_x, y, tab);
+    if (new_y <0 || new_y >= SIZE) return;
+    PIECE a_prendre = get_square(new_x, new_y, tab);
     if (a_prendre == VIDE) {
         set_square(x, y, tab, VIDE);
-        set_square(new_x, y, tab, p);
+        set_square(new_x, new_y, tab, p);
     } else {
         bool est_adverse = false;
-        if (direction == 1 && a_prendre >= ROI_B && a_prendre <= PION_B) est_adverse = true;
-        if (direction == -1 && a_prendre >= ROI_N && a_prendre <= PION_N) est_adverse = true;
+        if (a_prendre >= ROI_B && a_prendre <= PION_B){
+            est_adverse = true;
+            (*point_noir)++;
+        } 
+        if (a_prendre >= ROI_N && a_prendre <= PION_N){
+            est_adverse = true;
+            (*point_blanc)++;
+        }
         if (est_adverse) {
-            set_square(new_x, y, tab, p);
-            set_square(x, y, tab, VIDE);
-            if (direction == 1){
-                (*point_noir)++;
-            }else{
-                (*point_blanc)++;
-            }             
+            set_square(new_x, new_y, tab, p);
+            set_square(x, y, tab, VIDE);    
         }
     }
 }
 
+
+// Write_FEN doit envoyer dans un fichier txt.
 void write_FEN(PIECE tab[SIZE][SIZE]){
     for (int i = 0; i < SIZE; i++) {
         int vides = 0;
@@ -122,4 +117,6 @@ void write_FEN(PIECE tab[SIZE][SIZE]){
     }
     cout << endl;
 }
+
+// READ_FEN lit dans le fichier txt.
 
