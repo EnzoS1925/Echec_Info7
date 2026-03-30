@@ -11,4 +11,6 @@ enum PIECE {
 
 using Plateau = PIECE [SIZE][SIZE];
 
+using Masque = int [SIZE][SIZE];
+
 #endif

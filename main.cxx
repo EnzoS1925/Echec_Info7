@@ -1,18 +1,25 @@
 #include <iostream>
 #include "view.hpp"
 #include "board.hpp"
+#include "mask.hpp"
 using namespace std;
 
 
 
 int main() {
-    PIECE board[SIZE][SIZE];    
+    PIECE board[SIZE][SIZE]; 
+    Masque m;   
     int coup_jouer =0;
     int x,y;
     int pts_blanc=0;
     int pts_noir=0;
     init_board(board);
     start(board);
+    empty_mask(m);
+    set_square(4,4,board,TOUR_B);
+    highlight_possible_moves(4,4,board,m);
+    print_board(m);
+    cout << "-----------------" << endl;
     print_board_FEN(board);
 /*
     while (pts_blanc != 15 or pts_noir != 15){
@@ -25,7 +32,5 @@ int main() {
         cout << "Points Noir : "  << pts_noir << "\t Points Blanc : " << pts_blanc << endl;
     }
         */
-    write_FEN(board);
-    read_FEN(board);
     return 0;
 }

@@ -68,3 +68,22 @@ void print_board_FEN(PIECE tab[SIZE][SIZE]) {
     cout << "  a  b  c  d  e  f  g  h" << endl;
     cout << "  -----------------------" << endl;
 }
+
+void print_board(Masque m) {
+    cout << "  a  b  c  d  e  f  g  h " << endl;
+    for (int i = 0; i < SIZE; i++) {
+        cout << i << " "; 
+        for (int j = 0; j < SIZE; j++) {
+            if ((i + j) % 2 == 0) {
+                cout << "\x1b[48;5;94m";
+            } else {
+                cout << "\x1b[48;5;223m";
+            }
+            cout << "\x1b[38;5;0m"; 
+            cout << " " << m[i][j] << " ";
+            cout << "\x1b[0m";
+        }
+        cout << " " << i << endl;
+    }
+    cout << "  a  b  c  d  e  f  g  h" << endl;
+}
