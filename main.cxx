@@ -16,6 +16,11 @@ int main() {
     init_board(board);
     start(board);
     empty_mask(m);
+
+    //TEST POUR LE FOU :
+    set_square(4,4,board,FOU_B);
+
+    // FIN TEST FOU 
     print_board_FEN(board);
     while (pts_blanc != 15 or pts_noir != 15){
         cout << "Quel pièce voulez-vous déplacer ? (ligne et colonne)";

@@ -16,6 +16,9 @@ void highlight_possible_moves_king(int x, int y, Plateau tab, Masque m);
 
 void highlight_possible_moves_rook(int x, int y, Plateau tab, Masque m);
 
+void highlight_possible_moves_bishop(int x,int y,Plateau tab,Masque m);
+
 void highlight_possible_moves_pawn(int x,int y,Plateau tab,Masque m);
+
 
 #endif

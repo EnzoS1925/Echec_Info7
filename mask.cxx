@@ -38,21 +38,22 @@ void highlight_possible_moves(int x, int y, Plateau tab, Masque m) {
         case TOUR_N: case TOUR_B:
             highlight_possible_moves_rook(x, y, tab, m);
             break;
+        case FOU_N: case FOU_B:
+            highlight_possible_moves_bishop(x,y,tab,m);
         case PION_N: case PION_B:
             highlight_possible_moves_pawn(x,y,tab,m);
     }
 }
 
 void highlight_possible_moves_rook(int x, int y, Plateau tab, Masque m) {
-    int color;
-    for (int i=0;i<SIZE;i++){
-        if (get_square(x,y,tab) >= ROI_N && get_square(x,y,tab) <= PION_N ) color = 2;
-        if (get_square(x,y,tab) >= ROI_B && get_square(x,y,tab) <= PION_B ) color = 1;
-    }
+    int color = 0;
+    PIECE p = get_square(x, y, tab);
+    if (p >= ROI_N && p <= PION_N) color = 2;
+    else if (p >= ROI_B && p <= PION_B) color = 1;
     int target_color;
-    // On vérifie les couleurs sur la ligne
-    for (int j = 0; j < SIZE; j++) {
-        if (j == y) continue; 
+
+    // Vers la droite
+    for (int j = y + 1; j < SIZE; j++) {
         PIECE p = get_square(x, j, tab);
         if (p >= ROI_N && p <= PION_N) target_color = 2;
         else if (p >= ROI_B && p <= PION_B) target_color = 1;
@@ -64,24 +65,132 @@ void highlight_possible_moves_rook(int x, int y, Plateau tab, Masque m) {
             break;
         } else {
             m[x][j] = MASK_VIDE;
+            break;
         }
     }
-    // On vérifie les couleurs sur la colonne
-    for (int i = 0; i < SIZE; i++) {
-        if (i == x) continue;
+    // Vers la gauche
+    for (int j = y - 1; j >= 0; j--) {
+        PIECE p = get_square(x, j, tab);
+        if (p >= ROI_N && p <= PION_N) target_color = 2;
+        else if (p >= ROI_B && p <= PION_B) target_color = 1;
+        else target_color = 0;
+        if (target_color == 0) {
+            m[x][j] = MASK_MOVE;
+        } else if (target_color != color) {
+            m[x][j] = MASK_CAPTURE;
+            break;
+        } else {
+            m[x][j] = MASK_VIDE;
+            break;
+        }
+    }
+    // Direction : bas (i > x)
+    for (int i = x + 1; i < SIZE; i++) {
         PIECE p = get_square(i, y, tab);
         if (p >= ROI_N && p <= PION_N) target_color = 2;
         else if (p >= ROI_B && p <= PION_B) target_color = 1;
         else target_color = 0;
         if (target_color == 0) {
             m[i][y] = MASK_MOVE;
-            break;
         } else if (target_color != color) {
             m[i][y] = MASK_CAPTURE;
             break;
         } else {
             m[i][y] = MASK_VIDE;
             break;
+        }
+    }
+    // Vers le haut
+    for (int i = x - 1; i >= 0; i--) {
+        PIECE p = get_square(i, y, tab);
+        if (p >= ROI_N && p <= PION_N) target_color = 2;
+        else if (p >= ROI_B && p <= PION_B) target_color = 1;
+        else target_color = 0;
+
+        if (target_color == 0) {
+            m[i][y] = MASK_MOVE;
+        } else if (target_color != color) {
+            m[i][y] = MASK_CAPTURE;
+            break;
+        } else {
+            m[i][y] = MASK_VIDE;
+            break;
+        }
+    }
+}
+
+void highlight_possible_moves_bishop(int x,int y,Plateau tab,Masque m){
+    int color = 0;
+    PIECE p = get_square(x, y, tab);
+    if (p >= ROI_N && p <= PION_N) color = 2;
+    else if (p >= ROI_B && p <= PION_B) color = 1;
+    int target_color;
+    for(int i= x-1;i>=0;i--){
+        for (int j=y-1;j>=0;j--){
+            PIECE p = get_square(i,j,tab);
+            if (p >= ROI_N && p <= PION_N) target_color = 2;
+            else if (p >= ROI_B && p <= PION_B) target_color = 1;
+            else target_color = 0;
+            if (target_color == 0){
+                m[i][j] = MASK_MOVE;
+            }else if(target_color != color) {
+                m[i][j] = MASK_CAPTURE;
+                break;
+            }else{
+                m[i][j]= MASK_VIDE;
+                break;
+            }
+        }
+    }
+    for(int i= x-1;i>=0;i--){
+        for (int j=y+1;j<SIZE;j++){
+            PIECE p = get_square(i,j,tab);
+            if (p >= ROI_N && p <= PION_N) target_color = 2;
+            else if (p >= ROI_B && p <= PION_B) target_color = 1;
+            else target_color = 0;
+            if (target_color == 0){
+                m[i][j] = MASK_MOVE;
+            }else if(target_color != color) {
+                m[i][j] = MASK_CAPTURE;
+                break;
+            }else{
+                m[i][j]= MASK_VIDE;
+                break;
+            }
+        }
+    }
+    for(int i= x+1;i<SIZE;i++){
+        for (int j=y-1;j>=0;j--){
+            PIECE p = get_square(i,j,tab);
+            if (p >= ROI_N && p <= PION_N) target_color = 2;
+            else if (p >= ROI_B && p <= PION_B) target_color = 1;
+            else target_color = 0;
+            if (target_color == 0){
+                m[i][j] = MASK_MOVE;
+            }else if(target_color != color) {
+                m[i][j] = MASK_CAPTURE;
+                break;
+            }else{
+                m[i][j]= MASK_VIDE;
+                break;
+            }
+        }
+    }
+    for(int i= x+1;i<SIZE;i++){
+        for (int j=y+1;j<SIZE;j++){
+            PIECE p = get_square(i,j,tab);
+            if (p >= ROI_N && p <= PION_N) target_color = 2;
+            else if (p >= ROI_B && p <= PION_B) target_color = 1;
+            else target_color = 0;
+            if (target_color == 0){
+                m[i][j] = MASK_MOVE;
+            }else if(target_color != color) {
+                m[i][j] = MASK_CAPTURE;
+                break;
+            }else{
+                m[i][j]= MASK_VIDE;
+                break;
+            }
         }
     }
 }
