@@ -13,6 +13,7 @@ int main() {
     int x,y;
     int pts_blanc=0;
     int pts_noir=0;
+    int joueur_actuel = 0;
     init_board(board);
     start(board);
     empty_mask(m); 
@@ -40,7 +41,7 @@ int main() {
 
 
     while (pts_blanc != 15 && pts_noir != 15){
-        mask_choices(0,board,m);
+        mask_choices(joueur_actuel,board,m);
         cout << "Quel pièce voulez-vous déplacer ? (ligne et colonne)";
         cin >> x >> y;
         clear_mask(m);
@@ -51,7 +52,11 @@ int main() {
         coup_jouer++;
         cout << "Le nombre de coup déja jouer est : " << coup_jouer << endl;
         cout << "Points Noir : "  << pts_noir << "\t Points Blanc : " << pts_blanc << endl;
-
+        if (joueur_actuel == 0){
+            joueur_actuel++;
+        }else if(joueur_actuel == 1){
+            joueur_actuel--;
+        }
     }
     return 0;
 }
