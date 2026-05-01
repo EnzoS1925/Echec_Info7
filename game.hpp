@@ -1,3 +1,4 @@
+#include "types.hpp"
 #ifndef GAME_HPP
 #define GAME_HPP
 
