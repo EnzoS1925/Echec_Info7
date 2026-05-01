@@ -295,7 +295,7 @@ void highlight_possible_moves_king(int x, int y, Plateau tab, Masque m) {
             }
         }
     }
-}
+}   // ESSAYER DE RENDRE LA FONCTION MOINS LOURDE
 
 void highlight_possible_moves_queen(int x,int y,Plateau tab,Masque m){
     highlight_possible_moves_bishop(x,y,tab,m);
