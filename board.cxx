@@ -62,32 +62,15 @@ void start(PIECE tab[SIZE][SIZE]){
 }
 
 
-void move_piece(PIECE tab[SIZE][SIZE], int x, int y, int* point_noir, int* point_blanc) {
+void move_piece(Plateau tab, int x, int y, int xd, int yd, int* point_noir, int* point_blanc) {
     PIECE p = get_square(x, y, tab);
-    int new_x,new_y;
-    cout << "Sur quel case voulez-vous aller ? (ligne & colonne) : ";
-    cin >> new_x >> new_y;
-    if (new_x < 0 || new_x >= SIZE) return;
-    if (new_y <0 || new_y >= SIZE) return;
-    PIECE a_prendre = get_square(new_x, new_y, tab);
-    if (a_prendre == VIDE) {
-        set_square(x, y, tab, VIDE);
-        set_square(new_x, new_y, tab, p);
-    } else {
-        bool est_adverse = false;
-        if (a_prendre >= ROI_B && a_prendre <= PION_B){
-            est_adverse = true;
-            (*point_noir)++;
-        } 
-        if (a_prendre >= ROI_N && a_prendre <= PION_N){
-            est_adverse = true;
-            (*point_blanc)++;
-        }
-        if (est_adverse) {
-            set_square(new_x, new_y, tab, p);
-            set_square(x, y, tab, VIDE);    
-        }
-    }
+    PIECE a_prendre = get_square(xd, yd, tab);
+    if (a_prendre != VIDE) {
+        if (a_prendre >= ROI_B && a_prendre <= PION_B) (*point_noir)++;
+        if (a_prendre >= ROI_N && a_prendre <= PION_N) (*point_blanc)++;
+    } 
+    set_square(xd, yd, tab, p);
+    set_square(x, y, tab, VIDE);
 }
 
 
@@ -135,4 +118,49 @@ void read_FEN(PIECE tab[SIZE][SIZE]){
     else{
         cout << "ERREUR : Impossible d'ouvrir le fichier en lecture" << endl;
     }
+}
+
+bool king_in_check(Plateau tab, int joueur) {
+    int x_roi = -1, y_roi = -1;
+    PIECE cible = (joueur == 0) ? ROI_B : ROI_N;
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (tab[i][j] == cible) {
+                x_roi = i; y_roi = j;
+                break;
+            }
+        }
+    }
+    Masque m_adv;
+    int adversaire = (joueur == 0) ? 1 : 0;
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            PIECE p = tab[i][j];
+            bool est_adverse = (adversaire == 0) ? (p >= ROI_B && p <= PION_B) : (p >= ROI_N && p <= PION_N);
+            
+            if (est_adverse) {
+                empty_mask(m_adv);
+                highlight_possible_moves(i, j, tab, m_adv);
+                if (get_mask(x_roi, y_roi, m_adv) == MASK_CAPTURE) return true;
+            }
+        }
+    }
+    return false;
+}
+
+int compute_score(Plateau tab, int joueur) {
+    int score = 0;
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            PIECE p = tab[i][j];
+            bool mienne = (joueur == 0) ? (p >= ROI_B && p <= PION_B) : (p >= ROI_N && p <= PION_N);
+            if (mienne) {
+                if (p == PION_B || p == PION_N) score += 1;
+                else if (p == CAVALIER_B || p == CAVALIER_N || p == FOU_B || p == FOU_N) score += 3;
+                else if (p == TOUR_B || p == TOUR_N) score += 5;
+                else if (p == REINE_B || p == REINE_N) score += 9;
+            }
+        }
+    }
+    return score;
 }
