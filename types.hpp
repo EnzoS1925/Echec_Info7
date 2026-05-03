@@ -1,6 +1,7 @@
 #ifndef TYPES_HPP
 #define TYPES_HPP
 
+const int MAX_COUPS = 200;
 const int SIZE = 8;
 const int MASK_VIDE      = 0;
 const int MASK_SELECTED  = 1;
@@ -16,5 +17,21 @@ enum PIECE {
 using Plateau = PIECE [SIZE][SIZE];
 
 using Masque = int [SIZE][SIZE];
+
+// HSISTORIQUE : 
+
+struct Coup {
+    int x_dep, y_dep;
+    int x_arr, y_arr;
+    char piece_fen;
+};
+
+struct Game {
+    int pts_blanc;
+    int pts_noir;
+    int joueur_actuel;
+    Coup historique[MAX_COUPS];
+    int nb_coups;
+};
 
 #endif
